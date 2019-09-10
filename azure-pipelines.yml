@@ -13,10 +13,16 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  imageName: 'pipelines-javascript-docker'
 
 steps:
 - script: dotnet restore
-
+- task: Docker@2
+  displayName: Build an image
+  inputs:
+    repository: $(imageName)
+    command: build
+    Dockerfile: app/Dockerfile
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
